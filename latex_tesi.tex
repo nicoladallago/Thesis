@@ -31,7 +31,8 @@
 \usepackage{sidecap}
 \usepackage{graphicx}
 \usepackage{caption}
-\usepackage{subcaption}
+\usepackage{subfig}
+%\usepackage{subcaption}
 \usepackage[algo2e,algochapter,ruled,linesnumbered,vlined]{algorithm2e}
 
 %%%%%%%%%%%%%% page headers and footers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -177,7 +178,7 @@
 			\]
 			
 			\begin{SCfigure}[]
-				\includegraphics[width=0.7\textwidth]{./figures/Triangolazione_stereoscopica.png}
+				\includegraphics[width=0.6\textwidth]{./figures/Triangolazione_stereoscopica.png}
 				\caption{Triangolazione stereoscopica.}
 				\label{fig:triangolazione}
 			\end{SCfigure}
@@ -190,7 +191,27 @@
 			
 			\# TODO frase sbagliata, controlla!!!!!!!!!!!!! \newline
 			dove $b$ è la distanza tra i due centri ottici delle fotocamere, $f$ la focale delle fotocamere e $u'-u$ la distanza fra i due centri ottici.
+		
+		
+		\section{Calcolo delle corrispondenze}
+		\label{sec:corrispondenze}
+		
+			Il calcolo delle corrispondenze o della disparità è il problema principale della stereo vision. \newline
+			La disparità è la differenza tra due punti coniugati, immaginando di sovrapporre le due immagini. Il calcolo delle corrispondenze non è altro che il calcolo della disparità per ogni pixel delle due immagini \cite{fusiello}. Si ottiene quindi una mappa di disparità del tipo di figura \ref{fig:disparità}.
 			
+			\begin{figure}
+				\centering
+				\subfloat[][\emph{Fotocamera di destra}.]
+					{\includegraphics[width=.31\textwidth]{./figures/view1.png}} \quad
+				\subfloat[][\emph{Fotocamera di sinistra}.]
+					{\includegraphics[width=.31\textwidth]{./figures/view5.png}} \quad
+				\subfloat[][\emph{Mappa di disparità}.]
+					{\includegraphics[width=.31\textwidth]{./figures/disp1.png}} 
+				\caption{Mappa di disparità con immagine di destra come riferimento, immagine presa da \url{http://vision.middlebury.edu/stereo/data/}}
+				\label{fig:disparità}
+			\end{figure}
+			
+						
 			
 			
 			
