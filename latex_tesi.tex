@@ -156,8 +156,10 @@
 
 %%----------------------------- INTRODUZIONE ---------------------------------------%%	
 	\chapter{Introduzione}
-	\label{sec:Introduzione}
+	\label{sec:introduzione}
 	\pagestyle{fancy}
+	
+		La visione stereo è stata un'area attiva della della ricerca per decenni. Negli ultimi anni, gli algoritmi di stereo vision sono maturati a tal punto da essere applicati in un vasto scenario, dalla automazione industriale, al gaming fino alla guida assistita \cite{mercedes}.
 	
 		\section{Stereopsi}
 		\label{sec:Stereopsi}
@@ -167,7 +169,7 @@
 			Si possono quindi identificare due problemi: calcolo delle corrispondenze e triangolazione \cite{fusiello}.\newline
 			Il primo consiste nell'accoppiare punti delle due immagini, detti punti coniugati, che sono proiezione dello stesso punto nella scena. Il calcolo delle corrispondenze è un problema possibile in quanto le due immagini differiscono di poco, quindi un punto della scena deve apparire simile nei punti coniugati delle due immagini. Basando solo su questo però, sono possibili molti accoppiamenti sbagliati; le due immagini vengono quindi rettificate prima del calcolo delle corrispondenze, in modo che due punti coniugati si trovino sulla stessa retta (detta retta epipolare). Questo si ottiene ruotando le immagini originali attorno ai loro centri ottici finché i piani 
 			focali non diventano co-planari (e quindi anche i piani immagine).\newline
-			Per triangolazione si intende il calcolo della distanza tra un punto della scena e il piano formato dalle due fotocamere. Nel caso di due fotocamere parallele ed allineate ci si può facilmente ricondurre alla figura \ref{fig:triangolazione}.
+			Per triangolazione si intende il calcolo della distanza tra un punto della scena e il piano formato dalle due fotocamere. Nel caso di due fotocamere parallele ed allineate ci si può facilmente ricondurre alla figura \ref{fig:triangolazione}.\newline
 			Fissato come riferimento la fotocamera di sinistra si possono scrivere le equazioni di proiezione prospettica:
 			
 			\[
@@ -189,35 +191,48 @@
 			z=\frac{bf}{u'-u}
 			\]
 			
-			\# TODO frase sbagliata, controlla!!!!!!!!!!!!! \newline
-			dove $b$ è la distanza tra i due centri ottici delle fotocamere, $f$ la focale delle fotocamere e $u'-u$ la distanza fra i due centri ottici.
+			dove $b$ è la distanza tra le due fotocamere, $f$ la focale delle fotocamere e $u'-u$ la distanza fra i due centri ottici.
 		
 		
 		\section{Calcolo delle corrispondenze}
 		\label{sec:corrispondenze}
 		
-			Il calcolo delle corrispondenze o della disparità è il problema principale della stereo vision. \newline
-			La disparità è la differenza tra due punti coniugati, immaginando di sovrapporre le due immagini. Il calcolo delle corrispondenze non è altro che il calcolo della disparità per ogni pixel delle due immagini \cite{fusiello}. Si ottiene quindi una mappa di disparità del tipo di figura \ref{fig:disparità}.
-			
 			\begin{figure}
-				\centering
 				\subfloat[][\emph{Fotocamera di destra}.]
-					{\includegraphics[width=.31\textwidth]{./figures/view1.png}} \quad
+				{\includegraphics[width=.31\textwidth]{./figures/view1.png}} \quad
 				\subfloat[][\emph{Fotocamera di sinistra}.]
-					{\includegraphics[width=.31\textwidth]{./figures/view5.png}} \quad
+				{\includegraphics[width=.31\textwidth]{./figures/view5.png}} \quad
 				\subfloat[][\emph{Mappa di disparità}.]
-					{\includegraphics[width=.31\textwidth]{./figures/disp1.png}} 
+				{\includegraphics[width=.31\textwidth]{./figures/disp1.png}} 
 				\caption{Mappa di disparità con immagine di destra come riferimento, immagine presa da \url{http://vision.middlebury.edu/stereo/data/}}
 				\label{fig:disparità}
 			\end{figure}
 			
-						
+			
+			
+			Il calcolo delle corrispondenze o della disparità è il problema principale della stereo vision. \newline
+			La disparità è la differenza tra due punti coniugati, immaginando di sovrapporre le due immagini. Il calcolo delle corrispondenze non è altro che il calcolo della disparità per ogni pixel delle due immagini \cite{fusiello}. Si ottiene quindi una mappa di disparità del tipo di figura \ref{fig:disparità}.\newline
+			Gli approcci tipici per il calcolo della disparità sono basati su correlazione \cite{correlation} o semi-global matching (SGM) \cite{SGM}. In questa tesi viene utilizzato un algoritmo SGM, questo tipo di algoritmi usa una regione dell'immagine al posto del singolo pixel per identificare i punti coniugati. Ogni punto viene confrontato con tutti i punti nella retta epipolare, ad ogni pixel viene dato un costo e quindi si forma una cosiddetta funzione di costo.
+			
+
+			
+
+
+
+%%--------------------------- MISURE DI CONFIDENZA ------------------------------------%%						
+	\chapter{Misure di confidenza}
+	\label{sec:confidenza}
+	\pagestyle{fancy}
+	
+		Come accennato in \ref{sec:corrispondenze}, ad ogni pixel dell'immagine di riferimento (destra o sinistra), viene assegnata una funzione costo, la quale identifica 
+			
+			
 			
 			
 			
 		
 				
-%%---------------------------- BIBLIOGRAFIA ----------------------------------------&&
+%%---------------------------- BIBLIOGRAFIA ----------------------------------------%%
 	\begin{thebibliography}{1}
 		
 		\bibitem{fusiello}
@@ -231,6 +246,18 @@
 		\emph{Exploiting the Power of Stereo Confidences},
 		IEEE Conference on Computer Vision and Pattern Recognition, 2013.
 	
+		\bibitem{correlation}
+		D. Scharstein, R. Szeliski, 
+		\emph{A taxonomy and evaluation of
+		dense two-frame stereo correspondence algorithms}, 
+		IJCV,47(1-3):7–42, 2002.
+		
+		\bibitem{SGM}
+		H. Hirschmüller, 
+		\emph{Accurate and efficient stereo processing
+		by semi-global matching and mutual information}, 
+		IEEE CVPR, pages 807–814, San Diego, USA, June 2005.
+		
 		\bibitem{mordohai_pami}
 		X. Hu, P. Mordohai,
 		\emph{A Quantitative Evaluation of Confidence Measures for Stereo Vision},
@@ -249,6 +276,7 @@
 		\bibitem{opencv}
 		\emph{OpenCV library 2.4.9},
 		\url{http://opencv.org/}.
+		
 		
 		
 	\end{thebibliography}	
