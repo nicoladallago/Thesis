@@ -58,7 +58,8 @@
 \setcounter{tocdepth}{3}    
 
 %%%%%%%%%%%%%%%% utilities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\nullpage}{\newpage\null\thispagestyle{empty}}
+\newcommand{\nullpage}{\newpage\null\thispagestyle{empty}}  %pagina bianca
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}    %valore assoluto
 
 
 \usepackage[
@@ -227,7 +228,7 @@
 	\label{sec:confidenza}
 	\pagestyle{fancy}
 	
-		Come accennato in \ref{sec:corrispondenze}, ad ogni pixel dell'immagine di riferimento (destra o sinistra), viene assegnata una funzione costo, la quale identifica quanto il pixel è "simile" al suo possibile coniugato.
+		Come accennato nella sezione \ref{sec:corrispondenze}, ad ogni pixel dell'immagine di riferimento (destra o sinistra), viene assegnata una funzione costo, la quale identifica quanto il pixel è "simile" al suo possibile coniugato.
 			
 			
 		\begin{figure}[<h>]
@@ -246,14 +247,14 @@
 		\section{Implementazione utilizzata}
 		\label{sec:implementazione}
 		
-		Per il calcolo della funzione costo, è stato utilizzato un algoritmo di semi-global matching presente nelle librerie di \textit{OpenCV} \cite{opencv}, scritto nel linguaggio C++. Si ottiene quindi una matrice, in formato \textit{.dat} delle stesse dimensioni delle immagine originali, ma con la funzione costo salvata in ogni casella. Successivamente la matrice viene convertita in un formato \textit{.mat} per renderla più facile da utilizzare con il linguaggio MATLAB. Poi, con uno script MATLAB vengono calcolate le mappe di disparità utilizzando algoritmi diversi. Le immagini utilizzate sono state prese dal dataset Midleburry \cite{dataset_2006_1,dataset_2006_2} disponibili su \url{http://vision.middlebury.edu/stereo/data/}. \newline
-		Prima di proseguire, si rende necessario dare alcune definizioni:
+		Per il calcolo della funzione costo, è stato utilizzato un algoritmo di \textit{semi-global matching} opportunamente modificato presente nelle librerie di \textit{OpenCV} \cite{opencv}, scritto nel linguaggio \textit{C++}. Si ottiene quindi una matrice, in formato \textit{.dat} delle stesse dimensioni delle immagine originali, ma con la funzione costo salvata in ogni casella. Successivamente la matrice viene convertita in un formato \textit{.mat} per renderla più facile da utilizzare con il linguaggio \textit{MATLAB}. Poi, con uno script \textit{MATLAB} vengono calcolate le mappe di disparità utilizzando algoritmi diversi. Le immagini utilizzate sono state prese dal dataset Midleburry \cite{dataset_2006_1,dataset_2006_2} disponibili su \url{http://vision.middlebury.edu/stereo/data/}. \newline
+		Prima di proseguire però, si rende necessario dare alcune definizioni:
 		
 		\begin{itemize}
 		
-			\item $c(d)$: il valore del costo assegnato ad una ipotetica mappa di disparità $d$, per un pixel di coordinate $(x,y)$, è denotato con $c(x,y,d)$ o $c(d)$, se le coordinate del pixel non sono ambigue.
+			\item $c(d)$: il valore del costo assegnato ad una ipotetica mappa di disparità $d$, per un pixel di coordinate $(x,y)$, è denotato con $c(x,y,d)$ o $c(d)$, se le coordinate del pixel non sono ambigue;
 			
-			\item $c_{1}$: il minimo valore del costo di un pixel è definito con $c_{1}$ e il corrispondente valore di disparità da $d_{1}$; $c_{1}=c(d_{1})=min\{c(d)\}$.
+			\item $c_{1}$: il minimo valore del costo di un pixel è definito con $c_{1}$ e il corrispondente valore di disparità da $d_{1}$; $c_{1}=c(d_{1})=min\{c(d)\}$;
 			
 			\item $c_{2}$: con $c_{2}$ viene denotato il secondo valore più piccolo in $d_{2}$, mentre con $c_{2m}$ si denota il secondo minimo locale più piccolo.
 			
@@ -282,7 +283,7 @@
 		
 		\section{Proprietà locali della curva}
 		\label{sec:localProperties}	
-			La forma della curva di costo intorno al minimo (la nitidezza o la planarità) è indice di certezza nella partita.
+			In questo genere di metriche, si sfrutta il fatto che la forma della curva di costo intorno al minimo (la nitidezza o la planarità) è indice di certezza nella partita.
 			
 			\paragraph{Curvature (CUR)}
 			\label{par:curvature}
@@ -294,7 +295,20 @@
 					\label{eq:CUR}
 				\end{equation} 
 			
-				\noindent se $d_{1}-1$ o $d_{1}+1$ sono fuori dal range di disparità, il punto più vicino del minimo viene usato due volte.
+				\noindent se $d_{1}-1$ o $d_{1}+1$ sono fuori dal range di disparità, il punto minimo $c(d_{1})$ viene usato due volte.
+			
+			
+			\paragraph{Local Curve (LC)} 
+			\label{par:local}
+			
+				Molto simile alla misura \textit{CUR}, la \textit{Local Curve} è descritta da
+				
+				\begin{equation}
+					C_{LC}=\frac {max\{ c(d_{1}-1) ,c(d_{1}+1) \} - c_{1}} {\gamma}
+					\label{eq:LC}
+				\end{equation}
+				
+				\noindent secondo il lavoro di D. Pfeiffer \textit{e al.}\cite{mercedes} è stato scelto un $\gamma$ pari a $480$ per ottenere una distribuzione abbastanza omogenea.
 			
 			
 			
@@ -320,7 +334,18 @@
 					\label{PKRN}
 				\end{equation}
 		
-				\noindent \textit{PKRN} può essere visto come una combinazione del \textit{PKR} e \textit{CUR}, che assegna bassa confidenza per le corrispondenze con minimi piatti o concorrenti forti.
+				\noindent \textit{PKRN} può essere visto come una combinazione del \textit{PKR} e \textit{CUR}, che assegna bassa confidenza per le corrispondenze con minimi piatti o concorrenti forti. Anche se le modifiche al \textit{PKRN} violano leggermente la metrica originale, ha i seguenti vantaggi rispetto alla controparte originale:
+				
+				\begin{itemize}
+						
+							\item le rare singolarità in cui il denominatore sia nullo non sono più presenti;
+							
+							\item piccole variazioni nei costi dovuti al rumore ai livelli bassi del costo, non hanno un forte impatto nella metrica; 
+							
+							\item scegliendo un $\epsilon=128$, il range dei possibili valori è limitato e la distribuzione è abbastanza uniforme tra zero e uno \cite{mercedes}.
+							
+				\end{itemize}
+				
 			
 			\paragraph{Nonlinear Margin (NLM)}
 			\label{par:NLM}
@@ -350,17 +375,24 @@
 					\label{eq:MLM}
 				\end{equation}  	
 			
-				\noindent In questo caso $\sigma_{MLM}$ rappresenta l'incertezza della disparità, ed è stata scelta alta in modo conservativo (ad esempio 8), anche per avere una distribuzione più uniforme.
+				\noindent In questo caso $\sigma_{MLM}$ rappresenta l'incertezza della disparità, ed è stata scelta alta in modo conservativo (ad esempio $\sigma_{MLM}=8$), anche per avere una distribuzione più uniforme.
 		
 				
+		\section{Consistenza fra disparità di destra e sinistra}
+		\label{sec:leftRight}
+			
+			Questa tipologia di misure consiste nel fatto che, idealmente, un punto nella mappa di disparità destra dovrebbe essere lo stesso nella mappa di disparità sinistra. Fin ora abbiamo denotato la disparità con $c(x,y,d)$, ma per chiarezza chiameremo $c_{R}(x_{R},y,d_{R})$ la disparità ottenuta tenendo come riferimento l'immagine di destra.
+			
+			\paragraph{Left Right Consistency (LRC)}
+			\label{par:LRC}
 
 
+				\begin{equation}
+					C_{LRC}(x,y) = - \abs{ d_{1}-D_{R}(x-d_{1},y)   }
+					\label{eq:LRC}
+				\end{equation}
 
-
-
-
-
-
+				\noindent dove $D_{R}(x-d_{1},y)=argmin_{d_{R}}\{c_{R}(x-d_{1},y,d_{R})\}$ e ovviamente $d_{1}=argmin_{d}\{c(x,y,d)\}$
 
 
 
@@ -369,6 +401,8 @@
 
 
 %%---------------------------- BIBLIOGRAFIA ----------------------------------------%%
+	\nullpage
+	
 	\begin{thebibliography}{1}
 		
 		\bibitem{fusiello}
