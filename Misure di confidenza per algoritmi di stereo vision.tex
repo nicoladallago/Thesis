@@ -1,5 +1,5 @@
 \documentclass[12pt]{report}
-\newcommand{\ThesisTitle}{misure di confidenza per algoritmi di stereo vision}
+\newcommand{\ThesisTitle}{misure di confidenza per algoritmi di \newline stereo vision}
 \newcommand{\ThesisAuthor}{Nicola Dal Lago}
 \title{\ThesisTitle}
 \author{\ThesisAuthor}
@@ -36,6 +36,33 @@
 %\usepackage{subcaption}
 \usepackage[algo2e,algochapter,ruled,linesnumbered,vlined]{algorithm2e}
 
+%%%%%%%%%%%%%% MATLAB code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings} % inserisce listati di programmi
+\definecolor{commenti}{rgb}{0.13,0.55,0.13}
+\definecolor{stringhe}{rgb}{0.63,0.125,0.94}
+\lstloadlanguages{Matlab}
+\lstset{% general command to set parameter(s)
+framexleftmargin=4mm,
+frame=single,
+keywordstyle = \color{blue},% blue keywords
+identifierstyle =, % nothing happens
+commentstyle = \color{commenti}, % comments
+stringstyle = \ttfamily \color{stringhe}, % typewriter type for strings
+showstringspaces = false, % no special string spaces
+emph = {for, if, then, else, end},
+emphstyle = \color{blue},
+firstnumber = 1, % numero della prima linea
+numbers =left, %  show number_line
+numberstyle = \tiny, % style of number_line
+stepnumber = 5, % one number_line after stepnumber
+numbersep = 5pt,
+language = {Matlab}, % per riconoscere la sintassi matlab
+extendedchars = true, % per abilitare caratteri particolari
+breaklines = true, % per mandare a capo le righe troppo lunghe
+breakautoindent = true, % indenta le righe spezzate
+breakindent = 30pt, % indenta le righe di 30pt
+}
+
 %%%%%%%%%%%%%% page headers and footers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -60,6 +87,7 @@
 %%%%%%%%%%%%%%%% utilities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\nullpage}{\newpage\null\thispagestyle{empty}}  %pagina bianca
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}    %valore assoluto
+\DeclareMathOperator*{\argmin}{arg\,min} %argmin
 
 
 \usepackage[
@@ -112,21 +140,23 @@
 		\vfill
 		\begin{normalsize}
 			\begin{flushleft}
-  
   				\hspace{83pt} \textit{Laureando} \hspace{142pt} \textit{Relatore}\\
   				\vspace{5pt}
   
   				\hspace{62pt} \large{\textbf{Nicola Dal Lago}} \hspace{71pt} \large{\textbf{Prof. Pietro Zanuttigh}}\\
-  
-  				\vspace{5pt}
-  				\hspace{270pt} \textit{Correlatore}\\
-  
-  				\vspace{5pt}
-  				\hspace{247pt} \large{\textbf{Dott. Giulio Marin}}\\
 			\end{flushleft}
 		\end{normalsize}
-
+		
+		\begin{normalsize}
+			\begin{flushleft}
+		  				\hspace{276pt} \textit{Correlatore}\\
+		  
+		  				\vspace{5pt}
+		  				\hspace{249pt} \large{\textbf{Dott. Giulio Marin}}\\
+			\end{flushleft}
+		\end{normalsize}
 		\vfill
+		
 		\begin{center}
 			\hspace{-0.2cm}
 			\line(1, 0){360}
@@ -254,7 +284,7 @@
 		
 			\item $c(d)$: il valore del costo assegnato ad una ipotetica mappa di disparità $d$, per un pixel di coordinate $(x,y)$, è denotato con $c(x,y,d)$ o $c(d)$, se le coordinate del pixel non sono ambigue;
 			
-			\item $c_{1}$: il minimo valore del costo di un pixel è definito con $c_{1}$ e il corrispondente valore di disparità da $d_{1}$; $c_{1}=c(d_{1})=min\{c(d)\}$;
+			\item $c_{1}$: il minimo valore del costo di un pixel è definito con $c_{1}$ e il corrispondente valore di disparità da $d_{1}$; $c_{1}=c(d_{1})=\min\{c(d)\}$;
 			
 			\item $c_{2}$: con $c_{2}$ viene denotato il secondo valore più piccolo in $d_{2}$, mentre con $c_{2m}$ si denota il secondo minimo locale più piccolo.
 			
@@ -304,7 +334,7 @@
 				Molto simile alla misura \textit{CUR}, la \textit{Local Curve} è descritta da
 				
 				\begin{equation}
-					C_{LC}=\frac {max\{ c(d_{1}-1) ,c(d_{1}+1) \} - c_{1}} {\gamma}
+					C_{LC}=\frac {\max\bigr\{ c(d_{1}-1) ,c(d_{1}+1) \bigr\} - c_{1}} {\gamma}
 					\label{eq:LC}
 				\end{equation}
 				
@@ -381,21 +411,47 @@
 		\section{Consistenza fra disparità di destra e sinistra}
 		\label{sec:leftRight}
 			
-			Questa tipologia di misure consiste nel fatto che, idealmente, un punto nella mappa di disparità destra dovrebbe essere lo stesso nella mappa di disparità sinistra. Fin ora abbiamo denotato la disparità con $c(x,y,d)$, ma per chiarezza chiameremo $c_{R}(x_{R},y,d_{R})$ la disparità ottenuta tenendo come riferimento l'immagine di destra.
+			Questa tipologia di misure consiste nel fatto che, idealmente, un punto nella mappa di disparità destra dovrebbe essere lo stesso nella mappa di disparità sinistra. Fin ora abbiamo denotato la disparità con $c(x,y,d)$, ma per chiarezza chiameremo $c_{R}(x_{R},y,d_{R})$ la disparità ottenuta tenendo come riferimento l'immagine di destra. Questo genere di misure risulterà più complicata delle precedenti, in quanto prima di calcolare la disparità "finale", si rende necessario calcolarla prima sia per l'immagine di destra che quella di sinistra. Per il calcolo delle due mappe di disparità, in questa tesi è stato usato l'algoritmo \textit{Sum of Absolute Differences (SAD)}. Questo algoritmo è di tipo \textit{block matching}, cioè calcola la mappa di disparità confrontando non il singolo pixel ma blocchi di pixel. Nel nostro caso le finestre hanno dimensione di $(2n+1)\times(2m+1)$
+		
+			\begin{equation}
+				c_{SAD}(x,y,d)=\argmin_{d}\biggr\{\sum_{(k,l)}\abs[\big]{I_{R}(x+k,y+l) - I_{L}(x+k+d,y+l)}\biggr\}
+				\label{eq:SAD}
+			\end{equation}		
+			
+			\noindent dove $k\in[-n,n]$, $l\in[-m,m]$ e $I(x,y)$ indica il livello di grigio del pixel $(x,y)$ dell'immagine destra ($I_{R}(x,y)$) o sinistra ($I_{L}(x,y)$). 
+		
+		
 			
 			\paragraph{Left Right Consistency (LRC)}
 			\label{par:LRC}
-
+			
+			E' l'unico metodo che viene utilizzato in questa tesi per quanto riguarda la consistenza fra disparità di destra e sinistra, ed è definito come:
+				
 
 				\begin{equation}
-					C_{LRC}(x,y) = - \abs{ d_{1}-D_{R}(x-d_{1},y)   }
+					C_{LRC}(x,y) = \abs[\big]{ d_{1}-D_{R}(x-d_{1},y)   }
 					\label{eq:LRC}
 				\end{equation}
 
-				\noindent dove $D_{R}(x-d_{1},y)=argmin_{d_{R}}\{c_{R}(x-d_{1},y,d_{R})\}$ e ovviamente $d_{1}=argmin_{d}\{c(x,y,d)\}$
+				\noindent dove $D_{R}(x-d_{1},y)=\argmin_{d_{R}}\{c_{R}(x-d_{1},y,d_{R})\}$ e come in precedenza $d_{1}=\argmin_{d}\{c(x,y,d)\}$
 
-
-
+	
+	
+	
+%%---------------------------- APPENDICI ----------------------------------------%%	
+	\nullpage	
+	\appendix 
+	\addcontentsline{toc}{chapter}{Appendici}
+	
+	\chapter{Codice MATLAB utilizzato}
+	\label{sec:codice}
+	
+		In questa appendice viene riportato solo il codice \textit{MATLAB} che calcola le mappe di disparità con le varie tecniche descritte nel paragrafo \ref{sec:confidenza}; si riporta inoltre il codice utilizzato per analizzare i risultati ottenuti.
+	
+		\section{computeConfidence.m}
+		\label{sec:computeConfidence}
+	
+			\lstinputlisting[basicstyle=\scriptsize]{./code/compute_confidence.m}
 
 
 
@@ -404,6 +460,7 @@
 	\nullpage
 	
 	\begin{thebibliography}{1}
+	\addcontentsline{toc}{chapter}{Bibliografia}
 		
 		\bibitem{fusiello}
 		A. Fusiello,
@@ -452,10 +509,13 @@
 		\emph{OpenCV library 2.4.9},
 		\url{http://opencv.org/}.
 		
-		
-		
-	\end{thebibliography}	
-	
+	\end{thebibliography}
+
+
+
+
+
+
 
 
 
