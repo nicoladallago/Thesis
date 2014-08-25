@@ -254,6 +254,8 @@ breakindent = 30pt, % indenta le righe di 30pt
 
 
 %%--------------------------- MISURE DI CONFIDENZA ------------------------------------%%						
+	\nullpage
+	
 	\chapter{Misure di confidenza}
 	\label{sec:confidenza}
 	\pagestyle{fancy}
@@ -425,15 +427,16 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\paragraph{Left Right Consistency (LRC)}
 			\label{par:LRC}
 			
-			E' l'unico metodo che viene utilizzato in questa tesi per quanto riguarda la consistenza fra disparità di destra e sinistra, ed è definito come:
+				E' l'unico metodo che viene utilizzato in questa tesi per quanto riguarda la consistenza fra disparità di destra e sinistra.
+				\textit{Left Right Consistency (LRC)} viene calcolato prendendo il valore disparità calcolato in una immagine, e proiettandolo nell'altra immagine. Se la differenza nei valori è inferiore a una determinata soglia, allora il pixel è occluso.	
+
+
+%%--------------------------- COMBINAZIONE DI MISURE ------------------------------------%%						
+	
+	\chapter{Combinazione di misure}
+	\label{sec:combinazione}
+	\pagestyle{fancy}
 				
-
-				\begin{equation}
-					C_{LRC}(x,y) = \abs[\big]{ d_{1}-D_{R}(x-d_{1},y)   }
-					\label{eq:LRC}
-				\end{equation}
-
-				\noindent dove $D_{R}(x-d_{1},y)=\argmin_{d_{R}}\{c_{R}(x-d_{1},y,d_{R})\}$ e come in precedenza $d_{1}=\argmin_{d}\{c(x,y,d)\}$
 
 	
 	
@@ -450,8 +453,25 @@ breakindent = 30pt, % indenta le righe di 30pt
 	
 		\section{computeConfidence.m}
 		\label{sec:computeConfidence}
+		
+			Questo script computa la mappa di disparità per \textit{MSM}, \textit{CUR}, \textit{LC}, \textit{PKRN}, \textit{NLM} e \textit{MLM}.
 	
-			\lstinputlisting[basicstyle=\scriptsize]{./code/compute_confidence.m}
+			\lstinputlisting[basicstyle=\scriptsize]{./code/computeConfidence.m}
+		
+		\newpage
+		\section{leftRightConsistency.m}
+		\label{sec:leftRightConsistency}
+			\lstinputlisting[basicstyle=\scriptsize]{./code/leftRightConsistency.m}	
+			
+		\newpage
+		\section{funcSADL2R.m}
+		\label{sec:funcSADL2R}
+			\lstinputlisting[basicstyle=\scriptsize]{./code/funcSADL2R.m}
+			
+		\newpage
+		\section{funcSADR2L.m}
+		\label{sec:funcSADR2L}
+			\lstinputlisting[basicstyle=\scriptsize]{./code/funcSADR2L.m}		
 
 
 
