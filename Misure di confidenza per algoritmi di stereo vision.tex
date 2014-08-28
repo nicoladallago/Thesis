@@ -94,7 +94,7 @@ breakindent = 30pt, % indenta le righe di 30pt
  colorlinks=false,
  a4paper=true,
  linktocpage=true,
- pagebackref=false,
+ pagebackref=true,
  pageanchor=true,
  hyperindex=true,
  bookmarks=true,
@@ -295,24 +295,6 @@ breakindent = 30pt, % indenta le righe di 30pt
 		
 		
 		
-		\section{Matching Cost}
-		\label{sec:matching}
-		
-			Il \textit{Matching Cost} è usato come una misura di confidenza.
-		
-			\paragraph{Matching Score Metric (MSM)}
-			\label{par:matching}
-				
-				L'\textit{MSM} è la metrica di confidenza più semplice, viene utilizzata come baseline per le prossime metriche.
-				
-				\begin{equation}
-					C_{MSM}=-c_{1}
-					\label{eq:MSM}
-				\end{equation}
-		
-		
-		
-		
 		\section{Proprietà locali della curva}
 		\label{sec:localProperties}	
 			In questo genere di metriche, si sfrutta il fatto che la forma della curva di costo intorno al minimo (la nitidezza o la planarità) è indice di certezza nella partita.
@@ -428,7 +410,23 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\label{par:LRC}
 			
 				E' l'unico metodo che viene utilizzato in questa tesi per quanto riguarda la consistenza fra disparità di destra e sinistra.
-				\textit{Left Right Consistency (LRC)} viene calcolato prendendo il valore disparità calcolato in una immagine, e proiettandolo nell'altra immagine. Se la differenza nei valori è inferiore a una determinata soglia, allora il pixel è occluso.	
+				\textit{Left Right Consistency (LRC)} viene calcolato prendendo il valore disparità calcolato in una immagine, e proiettandolo nell'altra immagine. Se la differenza nei valori è inferiore a una determinata soglia, allora il pixel è occluso. Questo procedimento viene poi ripetuto anche al contrario, cioè proiettando la seconda immagine nella prima. Inoltre il costo di \textit{LRC} viene calcolato come segue:
+				
+				\begin{equation}
+					C_{LRC}(x,y)=\abs[\big]{d_{1}-D_{R}(x-d_{1},y)}
+					\label{eq:LRC}
+				\end{equation}	
+				
+				\noindent con $d_{1}=\argmin_{d}\bigr\{c(x,y,d)\bigr\}$ e $D_{R}(x-d_{1},y)=\argmin_{d_{R}}\bigr\{c_{R}(x-d_{1},y,d_{R})\bigr\}$.
+				
+				
+%%--------------------------- RISULTATI ----------------------------------------------%%
+
+	\chapter{Risultati}
+	\label{sec:risultati}
+	\pagestyle{fancy}				
+				
+				
 
 
 %%--------------------------- COMBINAZIONE DI MISURE ------------------------------------%%						
@@ -529,15 +527,13 @@ breakindent = 30pt, % indenta le righe di 30pt
 		\emph{OpenCV library 2.4.9},
 		\url{http://opencv.org/}.
 		
+		\bibitem{ground_truth}
+		D. Scharstein, R. Szeliski,
+		\emph{High-Accuracy Stereo Depth Maps Using Structured Light},
+		Proc. CVPR, volume I, pages 195–202, 2003.
+
+		
 	\end{thebibliography}
-
-
-
-
-
-
-
-
 
 
 \end{document}
