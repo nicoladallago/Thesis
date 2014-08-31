@@ -174,7 +174,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 	\addcontentsline{toc}{chapter}{Abstract}
 	\pagestyle{fancy}
 	
-	\#TODO: srivere qui l'abstract
+	Scopo di questa tesi è il confronto di varie tecniche di stima della confidenza a partire dai dati acquisiti da una coppia di fotocamere stereo. Vengono quindi utilizzate più metriche fisse, con parametri variabili e combinazioni di esse. Si confrontano poi i risultati con la mappa di disparità \textit{ground truth} disponibile nei dataset citati. Per il calcolo delle disparità viene usato un algoritmo di semi \textit{Semi-global block matching (SGBM)} , opportunamente modificato, presente nelle librerie \textit{OpenCV}. Le misure di confidenza e i risultati sono invece scritti con il linguaggio di programmazione \textit{MATLAB}, e il codice viene riportato nelle appendici.
 	
 
 %%------------------------------ INDICE -------------------------------------------%%
@@ -425,6 +425,17 @@ breakindent = 30pt, % indenta le righe di 30pt
 	\chapter{Risultati}
 	\label{sec:risultati}
 	\pagestyle{fancy}				
+	
+		Tutte le misure effettuate vengono confrontate con una mappa di disparità chiamata \textit{ground truth}. Questa mappa è sempre disponibile nei dataset utilizzati \cite{dataset_2006_1, dataset_2006_2}, per tutte le immagini e per tutte le risoluzioni. La disparità \textit{ground truth} viene calcolata utilizzando sempre una coppia di videocamere, ma aggiungendo anche uno o più proiettori che illuminano la scena con dei pattern specifici. Ogni telecamera utilizza quindi i pattern per determinare un codice univoco per ciascun pixel. Trovare quindi le corrispondenze si traduce banalmente nel verificare quali pixel delle due immagini hanno lo stesso codice \cite{ground_truth}.  			
+		
+		\begin{SCfigure}[\sidecaptionrelwidth][h!]
+			\includegraphics[width=0.5\textwidth]{./figures/ground_truth.png}
+			\caption{Configurazione del proiettore e della coppia di videocamere per il calcolo della disparità ground truth; si può notare come il proiettore illumina la scena con dei pattern diversi per facilitare il compito delle videocamere.}
+			\label{fig:groundtruth}
+		\end{SCfigure}
+		
+		\noindent Per valutare la capacità delle misure di confidenza di predire dove una disparità è corretta 
+				
 				
 				
 
