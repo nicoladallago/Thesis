@@ -17,9 +17,8 @@
 \usepackage{float}
 
 %%%%%%%%%%%%%%%%%%%%%% fonts & symbols  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{amsmath}
+\usepackage{bm}
 \usepackage{amsmath,mathtools}
-\usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{fancyvrb}  
@@ -434,9 +433,47 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\label{fig:groundtruth}
 		\end{SCfigure}
 		
-		\noindent Per valutare la capacità delle misure di confidenza di predire dove una disparità è corretta 
+		\noindent Prima di continuare definiamo l'errore di disparità come
+		
+		\begin{equation}
+			e_{d}=\abs{d_{GT}-d}
+			\label{eq:errore}
+		\end{equation} 
+		
+		\noindent Dove $d_{GT}$ è la disparità \textit{ground truth} e $d$ sono i valori di disparità ottenuti. \newline Per valutare la capacità delle misure di confidenza di predire dove una disparità è corretta, è stato creato uno script \textit{MATLAB} che ordina prima tutte le disparità ottenute in ordine decrescente di confidenza, e poi ne calcola l'errore con densità crescente. Quindi, per ogni misura di confidenza ordinata secondo il valore di disparità, viene selezionato il primo 5\% e si calcola l'errore medio in due modi:  
+		
+		\begin{enumerate}
+			\item Nel primo metodo si misura la percentuale di pixel che ha un errore di disparità maggiore di uno;
+			
+			\item Nel secondo si misura semplicemente l'errore medio per ogni pixel.
+			
+			\label{enum:errore}
+		\end{enumerate}
 				
-				
+		\noindent Si ripete poi con il 10\% e così via sino al 100\%. Prima di confrontare le varie metriche si è pero' trovato il parametro ottimale per quelle con parametri variabili.
+		
+		\paragraph{Variazione parametro $\bm{\gamma}$ per \textit{LC}}
+		\label{par:gamma}
+		
+		Se come parametro di riferimento \cite{mercedes} si è tenuto $\gamma=480$, ora indagheremo su quali effetti produce la sua variazione.
+		
+		\begin{figure}[<h>]
+			\subfloat[][\emph{Immagine originale.}]
+			{\includegraphics[width=.31\textwidth]{./figures/view1.png}} \quad
+			\subfloat[][\emph{Ground truth.}]
+			{\includegraphics[width=.31\textwidth]{./figures/disp1.png}} \quad
+			\subfloat[][\emph{Misura Local Curve.}]
+			{\includegraphics[width=.31\textwidth]{./figures/LC.png}}
+			
+			\caption{Differenza tra \textit{ground truth} e la misura calcolata con \textit{Local Curve.}}
+			
+			\label{fig:LCeGT}
+		\end{figure}
+		
+		
+		
+		
+		  		
 				
 
 
