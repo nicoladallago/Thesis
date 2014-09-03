@@ -455,24 +455,21 @@ breakindent = 30pt, % indenta le righe di 30pt
 		\paragraph{Variazione parametro $\bm{\gamma}$ per \textit{LC}}
 		\label{par:gamma}
 		
-		Se come parametro di riferimento \cite{mercedes} si è tenuto $\gamma=480$, ora indagheremo su quali effetti produce la sua variazione.
-		
-		\begin{figure}[<h>]
-			\subfloat[][\emph{Immagine originale.}]
-			{\includegraphics[width=.31\textwidth]{./figures/view1.png}} \quad
-			\subfloat[][\emph{Ground truth.}]
-			{\includegraphics[width=.31\textwidth]{./figures/disp1.png}} \quad
-			\subfloat[][\emph{Misura Local Curve.}]
-			{\includegraphics[width=.31\textwidth]{./figures/LC.png}}
-			
-			\caption{Differenza tra \textit{ground truth} e la misura calcolata con \textit{Local Curve.}}
-			
-			\label{fig:LCeGT}
-		\end{figure}
+			Ora indagheremo quali effetti produce la 
 		
 		
+			\begin{wrapfloat}{figure}{l}{0pt}
+				\includegraphics[width=0.54\textwidth]{./figures/gamma_LC.png}
+				\caption{Distribuzioni diverse con valori di $\gamma$ diversi.}
+				\label{fig:gammaLC}
+			\end{wrapfloat} 
 		
+			\noindent variazione  del parametro $\gamma$. Come prima cosa si è osservato per quale valore si ha una distribuzione più uniforme tra $0$ e $1$. Come si può vedere dalla figura \ref{fig:gammaLC}, si ha una migliore distribuzione per $\gamma=0.9$. Per quanto riguarda l'errore medio invece, si ottengono risultati lievemente migliori per valori di $\gamma$ più elevati. Questi però influiscono molto sulla uniformità della misura; ad esempio con $\gamma=2$ si migliora solo di un inezia l'errore medio, ma la distribuzione apparterrà poi a un intervallo compreso tra circa $0,24$ e $0,5$. Come valore finale si è quindi deciso per un $\gamma$ pari a $0,9$. \newline
 		
+		\paragraph{Variazione parametro $\bm{\epsilon}$ per \textit{PKRN}}
+		\label{par:epsilon}
+		
+			Come prima, verifichiamo come si comporta la distribuzione della funzione al cambiare del parametro $\epsilon$
 		  		
 				
 
