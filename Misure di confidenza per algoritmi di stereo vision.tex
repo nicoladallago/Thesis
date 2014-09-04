@@ -452,26 +452,69 @@ breakindent = 30pt, % indenta le righe di 30pt
 				
 		\noindent Si ripete poi con il 10\% e così via sino al 100\%. Prima di confrontare le varie metriche si è pero' trovato il parametro ottimale per quelle con parametri variabili.
 		
-		\paragraph{Variazione parametro $\bm{\gamma}$ per \textit{LC}}
-		\label{par:gamma}
+		\section{Variazione parametri}
+		\label{sec:parametri}
 		
-			Ora indagheremo quali effetti produce la 
+			In questa sezione, prima di confrontare le misure, verificheremo quali parametri sono più adatti per quelle che dipendono da tali. Consideriamo quindi la \textit{Local Curve}, \textit{Peak Ratio Naive}, \textit{Nonlinear Margin}  e \textit{Maximum Likelihood metric}.
+		
+			\paragraph{Variazione parametro $\bm{\gamma}$ per \textit{LC}}
+			\label{par:gamma}
+		
+				Ora indagheremo quali effetti produce la 
 		
 		
-			\begin{wrapfloat}{figure}{l}{0pt}
-				\includegraphics[width=0.54\textwidth]{./figures/gamma_LC.png}
-				\caption{Distribuzioni diverse con valori di $\gamma$ diversi.}
-				\label{fig:gammaLC}
-			\end{wrapfloat} 
+				\begin{wrapfloat}{figure}{l}{0pt}
+					\includegraphics[width=0.5\textwidth]{./figures/gamma_LC.png}
+					\caption{Distribuzioni diverse con valori di $\gamma$ diversi.}
+					\label{fig:gammaLC}
+				\end{wrapfloat} 
 		
-			\noindent variazione  del parametro $\gamma$. Come prima cosa si è osservato per quale valore si ha una distribuzione più uniforme tra $0$ e $1$. Come si può vedere dalla figura \ref{fig:gammaLC}, si ha una migliore distribuzione per $\gamma=0.9$. Per quanto riguarda l'errore medio invece, si ottengono risultati lievemente migliori per valori di $\gamma$ più elevati. Questi però influiscono molto sulla uniformità della misura; ad esempio con $\gamma=2$ si migliora solo di un inezia l'errore medio, ma la distribuzione apparterrà poi a un intervallo compreso tra circa $0,24$ e $0,5$. Come valore finale si è quindi deciso per un $\gamma$ pari a $0,9$. \newline
+				\noindent variazione  del parametro $\gamma$. Come prima cosa si è osservato per quale valore si ha una distribuzione più uniforme tra $0$ e $1$. Come si può vedere dalla figura \ref{fig:gammaLC}, si ha una migliore distribuzione per $\gamma=0.9$. Per quanto riguarda l'errore medio invece, si ottengono risultati lievemente migliori per valori di $\gamma$ più elevati. Questi però influiscono molto sulla uniformità della misura; ad esempio con $\gamma=2$ si migliora solo di un inezia l'errore medio, ma la distribuzione apparterrà poi a un intervallo compreso tra circa $0,24$ e $0,5$. Come valore finale si è quindi deciso per un $\gamma$ pari a $0,9$. \newline
 		
-		\paragraph{Variazione parametro $\bm{\epsilon}$ per \textit{PKRN}}
-		\label{par:epsilon}
+			\paragraph{Variazione parametro $\bm{\epsilon}$ per \textit{PKRN}}
+			\label{par:epsilon}
 		
-			Come prima, verifichiamo come si comporta la distribuzione della funzione al cambiare del parametro $\epsilon$
-		  		
+				Come prima, verifichiamo come si comporta la distribuzione della funzione al cambiare del parametro $\epsilon$. Si nota che per valori minori di $1$ di $\epsilon$ il costo massimo supera $1$, mentre con valori troppo grandi si ha poca variazione tra il costo massimo e minimo. Il caso migliore si ha per un $\epsilon$ compreso tra $1,1$ e $1,2$, per semplicità scegliamo il valore $1,1$. 
+			
+				\begin{wrapfloat}{figure}{l}{0pt}
+					\includegraphics[width=0.5\textwidth]{./figures/epsilon_PKRN.png}
+					\caption{Distribuzioni diverse con valori di $\epsilon$ diversi.}
+					\label{fig:epsilonPKRN}
+				\end{wrapfloat} 
+			
+			
+				\noindent Per quanto riguardagli errori rispetto la \textit{ground truth}, i valori per il quale $e_{d}$ è maggiore di uno non  subiscono praticamente nessun cambiamento al variare di epsilon. Si hanno invece piccole variazioni per quanto riguarda l'errore medio, migliorando per $\epsilon$ grandi, ma non tali da giustificare un tale peggioramento della distribuzione fra $0$ e $1$. Il valore finale resta $1,1$. \newline \newline \newline \newline
+	
+			\paragraph{Variazione parametro $\bm{\sigma}$ per \textit{NLM}}
+			\label{par:sigmaNLM}
+			
+				Ripetiamo ancora una volta il procedimento, i risultati sono pressoché simili a prima, cioè grosse variazioni di distribuzione e trascurabili variazioni di errore per differenti valori di $\sigma$. Dopo qualche tentativo con diversi parametri, si arriva alla conclusione che i risultati migliori si ottengono con $\sigma_{NLM}=0,9$.
 				
+			\paragraph{Variazione parametro $\bm{\sigma}$ per \textit{MLM}}	 	 	
+		 	 \label{par:sigmaMLM}
+		 	 
+		 	 	Questa ultima misura è molto più sensibile alle variazioni parametriche, i risultati migliori in questo caso si sono ottenuti con $\sigma_{MLM}=0,25$.
+		 	 	
+		\section{Confronto delle misure}
+		\label{sec:confronto}		 	 	  
+		
+			\begin{figure}
+				\subfloat[][\emph{Ground truth.}]
+				{\includegraphics[width=.31\textwidth]{./figures/disp1.png}} \quad
+				\subfloat[][\emph{Misura Curvature.}]
+				{\includegraphics[width=.31\textwidth]{./figures/CUR.png}} \quad
+				\subfloat[][\emph{Misura Local Curve.}]
+				{\includegraphics[width=.31\textwidth]{./figures/LC.png}} \quad 
+				\subfloat[][\emph{Misura Peak Ratio Naive.}]
+				{\includegraphics[width=.31\textwidth]{./figures/PKRN.png}} \quad
+				\subfloat[][\emph{Misura Nonlinear Margin.}]
+				{\includegraphics[width=.31\textwidth]{./figures/NLM.png}} \quad
+				\subfloat[][\emph{Maximum Likelihood metric.}]
+				{\includegraphics[width=.31\textwidth]{./figures/MLM.png}}
+				
+				\caption{Confronto tra ground truth e diverse misure.}
+				\label{fig:disparità&costi}
+			\end{figure}
 
 
 %%--------------------------- COMBINAZIONE DI MISURE ------------------------------------%%						
