@@ -16,6 +16,8 @@
 \usepackage{setspace}
 \usepackage{float}
 
+
+
 %%%%%%%%%%%%%%%%%%%%%% fonts & symbols  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{bm}
 \usepackage{amsmath,mathtools}
@@ -173,7 +175,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 	\addcontentsline{toc}{chapter}{Abstract}
 	\pagestyle{fancy}
 	
-	Scopo di questa tesi è il confronto di varie tecniche di stima della confidenza a partire dai dati acquisiti da una coppia di fotocamere stereo. Vengono quindi utilizzate più metriche fisse, con parametri variabili e combinazioni di esse. Si confrontano poi i risultati con la mappa di disparità \textit{ground truth} disponibile nei dataset citati. Per il calcolo delle disparità viene usato un algoritmo di semi \textit{Semi-global block matching (SGBM)} , opportunamente modificato, presente nelle librerie \textit{OpenCV}. Le misure di confidenza e i risultati sono invece scritti con il linguaggio di programmazione \textit{MATLAB}, e il codice viene riportato nelle appendici.
+	Scopo di questa tesi è il confronto di varie tecniche di stima della confidenza a partire dai dati acquisiti da una coppia di fotocamere stereo. Vengono quindi utilizzate più metriche fisse, con parametri variabili e combinazioni di esse. Si confrontano poi i risultati con la mappa di disparità \textit{ground truth} disponibile nei dataset citati. Per il calcolo delle disparità viene usato un algoritmo di semi \textit{Semi-global block matching (SGBM)} , opportunamente modificato, presente nelle librerie \textit{OpenCV}. Le misure di confidenza e i risultati sono invece scritti con il linguaggio di programmazione \textit{MATLAB}, il cui codice viene riportato nelle appendici.
 	
 
 %%------------------------------ INDICE -------------------------------------------%%
@@ -198,7 +200,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 			La stereopsi è la capacità percettiva che consente di unire le immagini provenienti dai due occhi, che a causa del loro diverso posizionamento strutturale, presentano uno spostamento laterale. Questa disparità viene sfruttata dal cervello per trarre informazioni sulla profondità e sulla posizione spaziale dell'oggetto mirato. Di conseguenza la stereopsi permette di generare la visione tridimensionale. \footnote{da \url{https://it.wikipedia.org/wiki/Stereopsi}} \newline}
 			
 			Si possono quindi identificare due problemi: calcolo delle corrispondenze e triangolazione \cite{fusiello}.\newline
-			Il primo consiste nell'accoppiare punti delle due immagini, detti punti coniugati, che sono proiezione dello stesso punto nella scena. Il calcolo delle corrispondenze è un problema possibile in quanto le due immagini differiscono di poco, quindi un punto della scena deve apparire simile nei punti coniugati delle due immagini. Basando solo su questo però, sono possibili molti accoppiamenti sbagliati; le due immagini vengono quindi rettificate prima del calcolo delle corrispondenze, in modo che due punti coniugati si trovino sulla stessa retta (detta retta epipolare). Questo si ottiene ruotando le immagini originali attorno ai loro centri ottici finché i piani 
+			Il primo consiste nell'accoppiare punti delle due immagini, detti punti coniugati, che sono proiezione dello stesso punto nella scena. Il calcolo delle corrispondenze è un problema possibile in quanto le due immagini differiscono di poco, quindi un punto della scena deve apparire simile nei punti coniugati delle due immagini. Basandosi solo su questo però, sono possibili molti accoppiamenti sbagliati; le due immagini vengono quindi rettificate prima del calcolo delle corrispondenze, in modo che due punti coniugati si trovino sulla stessa retta (detta retta epipolare). Questo si ottiene ruotando le immagini originali attorno ai loro centri ottici finché i piani 
 			focali non diventano co-planari (e quindi anche i piani immagine).\newline
 			Per triangolazione si intende il calcolo della distanza tra un punto della scena e il piano formato dalle due fotocamere. Nel caso di due fotocamere parallele ed allineate ci si può facilmente ricondurre alla figura \ref{fig:triangolazione}.\newline
 			Fissato come riferimento la fotocamera di sinistra si possono scrivere le equazioni di proiezione prospettica:
@@ -231,21 +233,21 @@ breakindent = 30pt, % indenta le righe di 30pt
 		\label{sec:corrispondenze}
 		
 			\begin{figure}
-				\subfloat[][\emph{Fotocamera di destra}.]
+				\subfloat[][\emph{Fotocamera di destra.}]
 				{\includegraphics[width=.31\textwidth]{./figures/view1.png}} \quad
-				\subfloat[][\emph{Fotocamera di sinistra}.]
+				\subfloat[][\emph{Fotocamera di sinistra.}]
 				{\includegraphics[width=.31\textwidth]{./figures/view5.png}} \quad
-				\subfloat[][\emph{Mappa di disparità}.]
+				\subfloat[][\emph{Mappa di disparità.}]
 				{\includegraphics[width=.31\textwidth]{./figures/disp1.png}} 
-				\caption{Mappa di disparità con immagine di destra come riferimento, immagine presa da \url{http://vision.middlebury.edu/stereo/data/}}
+				\caption{Mappa di disparità con immagine di destra come riferimento, immagine presa da \url{http://vision.middlebury.edu/stereo/data/}.}
 				\label{fig:disparità}
 			\end{figure}
 			
 			
 			
 			Il calcolo delle corrispondenze o della disparità è il problema principale della stereo vision. \newline
-			La disparità è la differenza tra due punti coniugati, immaginando di sovrapporre le due immagini. Il calcolo delle corrispondenze non è altro che il calcolo della disparità per ogni pixel delle due immagini \cite{fusiello}. Si ottiene quindi una mappa di disparità del tipo di figura \ref{fig:disparità}.\newline
-			Gli approcci tipici per il calcolo della disparità sono basati su correlazione \cite{correlation} o semi-global matching (SGM) \cite{SGM}. In questa tesi viene utilizzato un algoritmo SGM, questo tipo di algoritmi usa una regione dell'immagine al posto del singolo pixel per identificare i punti coniugati. Ogni punto viene confrontato con tutti i punti nella retta epipolare, ad ogni pixel viene dato un costo e quindi si forma una cosiddetta funzione di costo.
+			La disparità è la differenza tra due punti coniugati (vettore), immaginando di sovrapporre le due immagini. Il calcolo delle corrispondenze non è altro che il calcolo della disparità per ogni pixel delle due immagini \cite{fusiello}. Si ottiene quindi una mappa di disparità del tipo di figura \ref{fig:disparità}.\newline
+			Gli approcci tipici per il calcolo della disparità sono basati su correlazione \cite{correlation} o \textit{semi-global matching (SGM)} \cite{SGM}. In questa tesi viene utilizzato un algoritmo di tipo \textit{SGM}, questo tipo di algoritmi usa una regione dell'immagine al posto del singolo pixel per identificare i punti coniugati. Ogni punto viene confrontato con tutti i punti nella retta epipolare, fino ad ottenere il punto coniugato e quindi la disparità. La disparità però non è una funzione esatta, in quanto la misurazione può essere soggetta da rumore (scarsa o eccessiva illuminazione ecc\dots), oppure l'algoritmo di per se può sbagliare. Viene quindi generata una funzione detta ‘‘funzione di costo’’, la quale ha per ascissa tutti i possibili valori di disparità, e per ordinata la probabilità che quel valore di disparità sia esatto. In realtà, matematicamente parlando, non si ha una probabilità, ed è per questo che si parla di costo. 
 			
 
 			
@@ -259,38 +261,38 @@ breakindent = 30pt, % indenta le righe di 30pt
 	\label{sec:confidenza}
 	\pagestyle{fancy}
 	
-		Come accennato nella sezione \ref{sec:corrispondenze}, ad ogni pixel dell'immagine di riferimento (destra o sinistra), viene assegnata una funzione costo, la quale identifica quanto il pixel è "simile" al suo possibile coniugato.
+		Come accennato nella sezione \ref{sec:corrispondenze}, ad ogni pixel dell'immagine di riferimento (destra o sinistra), viene assegnata una funzione costo, la quale identifica quanto una determinata disparità sia esatta per quel pixel.
 			
 			
 		\begin{figure}[<h>]
 			\centering
-			\subfloat[][\emph{Funzione costo ideale}.]
+			\subfloat[][\emph{Funzione costo ideale.}]
 			{\includegraphics[width=.48\textwidth]{./figures/good_cost.png}} \quad
-			\subfloat[][\emph{Funzione costo ambigua}.]
+			\subfloat[][\emph{Funzione costo ambigua.}]
 			{\includegraphics[width=.48\textwidth]{./figures/bad_cost.png}}
-			\caption{Due possibili funzioni costo}
+			\caption{Due possibili funzioni costo.}
 			\label{fig:costi}
 		\end{figure}	
 		
-		\noindent Due possibili funzioni costo sono riportate in figura \ref{fig:costi}. E' chiaro che nel primo caso il punto coniugato  è individuato da quell'unico picco; nel secondo caso invece, la funzione è ambigua, in quanto vi sono diversi picchi, e non è quindi più così banale trovare il punto coniugato. Si rende quindi necessario lo studio di varie tecniche per misurare la confidenza di ciascun picco.
+		\noindent Due possibili funzioni costo sono riportate in figura \ref{fig:costi}. E' chiaro che nel primo caso la disparità  è individuata da quell'unico picco; nel secondo caso invece, la funzione è ambigua, in quanto vi sono diversi picchi, e non è quindi più così banale trovare l'esatta disparità. Si rende quindi necessario lo studio di varie tecniche per misurare la confidenza con la quale viene dato un determinato valore.
 		
 		
 		\section{Implementazione utilizzata}
 		\label{sec:implementazione}
 		
-		Per il calcolo della funzione costo, è stato utilizzato un algoritmo di \textit{semi-global matching} opportunamente modificato presente nelle librerie di \textit{OpenCV} \cite{opencv}, scritto nel linguaggio \textit{C++}. Si ottiene quindi una matrice, in formato \textit{.dat} delle stesse dimensioni delle immagine originali, ma con la funzione costo salvata in ogni casella. Successivamente la matrice viene convertita in un formato \textit{.mat} per renderla più facile da utilizzare con il linguaggio \textit{MATLAB}. Poi, con uno script \textit{MATLAB} vengono calcolate le mappe di disparità utilizzando algoritmi diversi. Le immagini utilizzate sono state prese dal dataset Midleburry \cite{dataset_2006_1,dataset_2006_2} disponibili su \url{http://vision.middlebury.edu/stereo/data/}. \newline
-		Prima di proseguire però, si rende necessario dare alcune definizioni:
+			Per il calcolo della funzione costo di ciascun pixel, è stato usato un algoritmo di tipo \textit{semi-global matching}, presente nelle librerie open source di visione computazionale \textit{OpenCV} \cite{opencv}. Questo algoritmo, scritto nel linguaggio \textit{C++}, di per se produrrebbe in output solo la mappa di disparità. L'algoritmo è stato quindi opportunamente modificato per poter estrarre la funzione costo di ciascun punto. Si ha quindi in output anche una matrice di formato \textit{.dat}, delle stesse dimensioni dell'immagine originale, ma che ha per ciascuna cella la funzione costo. Successivamente la matrice viene convertita in formato \textit{.mat}, per rendere il tutto più facile da utilizzare con il linguaggio di programmazione \textit{MATLAB}. Poi, con script \textit{MATLAB}, vengono calcolate le confidenze con diverse metriche. Le immagini utilizzate sono state prese dal dataset Midleburry \cite{dataset_2006_1,dataset_2006_2} disponibili su \url{http://vision.middlebury.edu/stereo/data/}. \newline
+			Prima di proseguire però, si rende necessario dare alcune definizioni:  		
 		
-		\begin{itemize}
-		
-			\item $c(d)$: il valore del costo assegnato ad una ipotetica mappa di disparità $d$, per un pixel di coordinate $(x,y)$, è denotato con $c(x,y,d)$ o $c(d)$, se le coordinate del pixel non sono ambigue;
+			\begin{itemize}
+				\item $c(d)$: il valore del costo assegnato ad una ipotetica mappa di disparità $d$, per un pixel di coordinate $(x,y)$, è denotato con $c(x,y,d)$ o $c(d)$, se le coordinate del pixel non sono ambigue;
 			
-			\item $c_{1}$: il minimo valore del costo di un pixel è definito con $c_{1}$ e il corrispondente valore di disparità da $d_{1}$; $c_{1}=c(d_{1})=\min\{c(d)\}$;
+				\item $c_{1}$: il minimo valore del costo di un pixel è definito con $c_{1}$ e il corrispondente valore di disparità da $d_{1}$; $c_{1}=c(d_{1})=\min\{c(d)\}$;
 			
-			\item $c_{2}$: con $c_{2}$ viene denotato il secondo valore più piccolo in $d_{2}$, mentre con $c_{2m}$ si denota il secondo minimo locale più piccolo.
+				\item $c_{2}$: con $c_{2}$ viene denotato il secondo valore più piccolo in $d_{2}$, mentre con $c_{2m}$ si denota il secondo minimo locale più piccolo.
+				\label{item:definizioni}
+			\end{itemize}
 			
-		\end{itemize}
-		Seguono quindi tutte le varie tecniche utilizzate, raggruppate secondo l'aspetto del costo che considerano \cite{indoors_outdoors}.
+			Seguono quindi tutte le varie tecniche utilizzate, raggruppate secondo l'aspetto del costo che considerano \cite{indoors_outdoors}.
 		
 		
 		
@@ -321,7 +323,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 					\label{eq:LC}
 				\end{equation}
 				
-				\noindent secondo il lavoro di D. Pfeiffer \textit{e al.}\cite{mercedes} è stato scelto un $\gamma$ pari a $480$ per ottenere una distribuzione abbastanza omogenea.
+				\noindent il parametro $\gamma$ verrà poi scelto tale da garantire una distribuzione del costo più uniforme possibile tra zero e uno.
 			
 			
 			
@@ -337,26 +339,23 @@ breakindent = 30pt, % indenta le righe di 30pt
 		
 				\begin{equation}
 					C_{PKR}=\frac{c_{2m}}{c_{1}}
-					\label{PKR}
+					\label{eq:PKR}
 				\end{equation}
 			
 				\noindent il \textit{PKRN} non richiede che il numeratore sia un minimo locale. Inoltre la formula è leggermente diversa da quella proposta in letteratura \cite{mercedes}
 			
 				\begin{equation}
 					C_{PKRN}=\frac{c_{2} + \epsilon}{c_{1} + \epsilon} - 1
-					\label{PKRN}
+					\label{eq:PKRN}
 				\end{equation}
 		
 				\noindent \textit{PKRN} può essere visto come una combinazione del \textit{PKR} e \textit{CUR}, che assegna bassa confidenza per le corrispondenze con minimi piatti o concorrenti forti. Anche se le modifiche al \textit{PKRN} violano leggermente la metrica originale, ha i seguenti vantaggi rispetto alla controparte originale:
 				
 				\begin{itemize}
-						
-							\item le rare singolarità in cui il denominatore sia nullo non sono più presenti;
-							
-							\item piccole variazioni nei costi dovuti al rumore ai livelli bassi del costo, non hanno un forte impatto nella metrica; 
-							
-							\item scegliendo un $\epsilon=128$, il range dei possibili valori è limitato e la distribuzione è abbastanza uniforme tra zero e uno \cite{mercedes}.
-							
+					\item le rare singolarità in cui il denominatore sia nullo non sono più presenti;
+					\item piccole variazioni nei costi dovuti al rumore ai livelli bassi del costo, non hanno un forte impatto nella metrica; 
+					\item potendo scegliere il valore di $\epsilon$, il range dei possibili valori può essere adattato, al fine di omogeneizzare la misura tra zero e uno.
+					\label{item:PKRN}			
 				\end{itemize}
 				
 			
@@ -370,7 +369,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 					\label{eq:NLM}
 				\end{equation}
 				
-				\noindent in questa tesi è stato usato un unico valore del parametro $\sigma_{NLM}$, senza cioè andare ad indagare i diversi risultati ottenibili con diverse varianze.
+				\noindent le variazioni del parametro $\sigma_{NLM}$ verranno poi discusse nel capitolo \ref{sec:risultati}.
 				
 		\section{Intera curva}
 		\label{sec:entireCost}
@@ -388,7 +387,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 					\label{eq:MLM}
 				\end{equation}  	
 			
-				\noindent In questo caso $\sigma_{MLM}$ rappresenta l'incertezza della disparità, ed è stata scelta alta in modo conservativo (ad esempio $\sigma_{MLM}=8$), anche per avere una distribuzione più uniforme.
+				\noindent In questo caso $\sigma_{MLM}$ rappresenta l'incertezza della disparità, e anche per questo caso la sua variazione verrà discussa nel capitolo \ref{sec:risultati}.
 		
 				
 		\section{Consistenza fra disparità di destra e sinistra}
@@ -404,7 +403,6 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\noindent dove $k\in[-n,n]$, $l\in[-m,m]$ e $I(x,y)$ indica il livello di grigio del pixel $(x,y)$ dell'immagine destra ($I_{R}(x,y)$) o sinistra ($I_{L}(x,y)$). 
 		
 		
-			
 			\paragraph{Left Right Consistency (LRC)}
 			\label{par:LRC}
 			
@@ -446,7 +444,6 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\item Nel primo metodo si misura la percentuale di pixel che ha un errore di disparità maggiore di uno;
 			
 			\item Nel secondo si misura semplicemente l'errore medio per ogni pixel.
-			
 			\label{enum:errore}
 		\end{enumerate}
 				
@@ -498,9 +495,9 @@ breakindent = 30pt, % indenta le righe di 30pt
 		\section{Confronto delle misure}
 		\label{sec:confronto}		 	 	  
 		
-			\begin{figure}
-				\subfloat[][\emph{Ground truth.}]
-				{\includegraphics[width=.31\textwidth]{./figures/disp1.png}} \quad
+			\begin{figure}[!h]
+				\subfloat[][\emph{Disparità calcolata con algoritmo \textit{SGM}.}]
+				{\includegraphics[width=.31\textwidth]{./figures/D_SGM.png}} \quad
 				\subfloat[][\emph{Misura Curvature.}]
 				{\includegraphics[width=.31\textwidth]{./figures/CUR.png}} \quad
 				\subfloat[][\emph{Misura Local Curve.}]
@@ -509,12 +506,15 @@ breakindent = 30pt, % indenta le righe di 30pt
 				{\includegraphics[width=.31\textwidth]{./figures/PKRN.png}} \quad
 				\subfloat[][\emph{Misura Nonlinear Margin.}]
 				{\includegraphics[width=.31\textwidth]{./figures/NLM.png}} \quad
-				\subfloat[][\emph{Maximum Likelihood metric.}]
+				\subfloat[][\emph{Misura Maximum Likelihood metric.}]
 				{\includegraphics[width=.31\textwidth]{./figures/MLM.png}}
 				
-				\caption{Confronto tra ground truth e diverse misure.}
+				\caption{Disparità e relative misure di confidenza.}
 				\label{fig:disparità&costi}
 			\end{figure}
+			
+			Cominciamo dal dire cosa aspettarci dai due confronti descritti prima. Per il primo grafico ci aspettiamo di trovare una curva che resta a zero per una determinata percentuale di confidenze, e che  poi tende a crescere in maniera pressoché lineare per le successive.  
+			
 
 
 %%--------------------------- COMBINAZIONE DI MISURE ------------------------------------%%						
@@ -523,7 +523,8 @@ breakindent = 30pt, % indenta le righe di 30pt
 	\label{sec:combinazione}
 	\pagestyle{fancy}
 				
-
+		Per combinazione di misure, si intende il combinarne più insieme al fine di migliorarne i risultati. Considerando le misure di confidenza come probabilità, la cosa più semplice da fare sarebbe quella di dire che, essendo indipendenti, la loro combinazione non è altro che il loro prodotto. In realtà però, non è del tutto corretto definirle indipendenti, in quanto tutte dipendono dalla stessa ‘‘matrice dei costi’’, calcolata con il medesimo algoritmo (in questo caso \textit{SGBM}). 
+		
 	
 	
 	
@@ -566,6 +567,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 	\nullpage
 	
 	\begin{thebibliography}{1}
+	\label{bibliografia}
 	\addcontentsline{toc}{chapter}{Bibliografia}
 		
 		\bibitem{fusiello}
@@ -619,6 +621,9 @@ breakindent = 30pt, % indenta le righe di 30pt
 		D. Scharstein, R. Szeliski,
 		\emph{High-Accuracy Stereo Depth Maps Using Structured Light},
 		Proc. CVPR, volume I, pages 195–202, 2003.
+		
+		
+
 
 		
 	\end{thebibliography}
