@@ -306,11 +306,11 @@ breakindent = 30pt, % indenta le righe di 30pt
 				E' largamente utilizzata nella letteratura \cite{indoors_outdoors}, ed è definita come
 				
 				\begin{equation}
-					C_{CUR}=-2c(d_{1})+c(d_{1}-1)+c(d_{1}+1)
+					C_{CUR}=\frac{-2c(d_{1})+c(d_{1}-1)+c(d_{1}+1)}{2}
 					\label{eq:CUR}
 				\end{equation} 
 			
-				\noindent se $d_{1}-1$ o $d_{1}+1$ sono fuori dal range di disparità, il punto minimo $c(d_{1})$ viene usato due volte.
+				\noindent se $d_{1}-1$ o $d_{1}+1$ sono fuori dal range di disparità, il punto minimo $c(d_{1})$ viene usato due volte. Il tutto viene diviso per 2 per garantire valori compresi tra zero e uno.
 			
 			
 			\paragraph{Local Curve (LC)} 
@@ -335,7 +335,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\paragraph{Peak Ratio Naive (PKRN)} 
 			\label{par:PKRN}
 		
-				A differenza del \textit{Peak Ratio (PKR)}, che calcola il costo con la formula \ref{PKR}
+				A differenza del \textit{Peak Ratio (PKR)}, che calcola il costo con la formula \ref{eq:PKR}
 		
 				\begin{equation}
 					C_{PKR}=\frac{c_{2m}}{c_{1}}
@@ -369,7 +369,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 					\label{eq:NLM}
 				\end{equation}
 				
-				\noindent le variazioni del parametro $\sigma_{NLM}$ verranno poi discusse nel capitolo \ref{sec:risultati}.
+				\noindent le variazioni del parametro $\sigma_{NLM}$ verranno poi discusse nella sezione \ref{sec:parametri}.
 				
 		\section{Intera curva}
 		\label{sec:entireCost}
@@ -387,7 +387,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 					\label{eq:MLM}
 				\end{equation}  	
 			
-				\noindent In questo caso $\sigma_{MLM}$ rappresenta l'incertezza della disparità, e anche per questo caso la sua variazione verrà discussa nel capitolo \ref{sec:risultati}.
+				\noindent In questo caso $\sigma_{MLM}$ rappresenta l'incertezza della disparità, e anche per questo caso la sua variazione verrà discussa nella sezione \ref{sec:parametri}.
 		
 				
 		\section{Consistenza fra disparità di destra e sinistra}
@@ -406,7 +406,6 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\paragraph{Left Right Consistency (LRC)}
 			\label{par:LRC}
 			
-				E' l'unico metodo che viene utilizzato in questa tesi per quanto riguarda la consistenza fra disparità di destra e sinistra.
 				\textit{Left Right Consistency (LRC)} viene calcolato prendendo il valore disparità calcolato in una immagine, e proiettandolo nell'altra immagine. Se la differenza nei valori è inferiore a una determinata soglia, allora il pixel è occluso. Questo procedimento viene poi ripetuto anche al contrario, cioè proiettando la seconda immagine nella prima. Inoltre il costo di \textit{LRC} viene calcolato come segue:
 				
 				\begin{equation}
@@ -416,7 +415,29 @@ breakindent = 30pt, % indenta le righe di 30pt
 				
 				\noindent con $d_{1}=\argmin_{d}\bigr\{c(x,y,d)\bigr\}$ e $D_{R}(x-d_{1},y)=\argmin_{d_{R}}\bigr\{c_{R}(x-d_{1},y,d_{R})\bigr\}$.
 				
+			\paragraph{Left Right Difference (LRD)}	
+			\label{par:LRD}
+			
+				\textit{Left Right Difference (LRD)} è una misura proposta per la prima volta in \cite{mordohai_pami}. Essa considera sia i due minimi della disparità di sinistra, ma anche il minimo di quella di destra. E' definita come
 				
+				\begin{equation}
+					C_{LRD}(x,y)=\frac{c_{2}-c_{1}}{\abs[\big]{c_{1}-\min\{c_{R}(x-d_{1},y,d_{R})\}}}
+					\label{eq:LRD}
+				\end{equation}
+				
+				\noindent L'idea è che finestre di pixel corrispondenti dovrebbero risultare in valore di costo molto simili, e quindi piccoli valori al denominatore. Questa misura dovrebbe salvaguardare da due possibili errori:
+				
+				\begin{itemize}
+					\item se il margine $c_{2}-c_{1}$ è grande, ma il pixel non ha una corrispondenza errata, il denominatore sarà grande, e la confidenza bassa;
+					
+					\item se il margine è piccolo, la misura è possibile che sia ambigua, in questo caso se il denominatore è piccolo denota che è stata creata con successo una corrispondenza fra due pixel
+					
+				\label{item:LRD}	
+				\end{itemize}
+				
+				\noindent Anche questo tipo di misura sarà calcolata usando prima le mappe di disparità \textit{SAD}.				
+				
+				\nullpage
 %%--------------------------- RISULTATI ----------------------------------------------%%
 
 	\chapter{Risultati}
