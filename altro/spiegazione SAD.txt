@@ -1,0 +1,8 @@
+Per il calcolo delle due mappe di disparità, in questa tesi è stato usato l'algoritmo \textit{Sum of Absolute Differences (SAD)}. Questo algoritmo è di tipo \textit{block matching}, cioè calcola la mappa di disparità confrontando non il singolo pixel ma blocchi di pixel. Nel nostro caso le finestre hanno dimensione di $(2n+1)\times(2m+1)$
+		
+			\begin{equation}
+				c_{SAD}(x,y,d)=\argmin_{d}\biggr\{\sum_{(k,l)}\abs[\big]{I_{R}(x+k,y+l) - I_{L}(x+k+d,y+l)}\biggr\}
+				\label{eq:SAD}
+			\end{equation}		
+			
+			\noindent dove $k\in[-n,n]$, $l\in[-m,m]$ e $I(x,y)$ indica il livello di grigio del pixel $(x,y)$ dell'immagine destra ($I_{R}(x,y)$) o sinistra ($I_{L}(x,y)$). 
