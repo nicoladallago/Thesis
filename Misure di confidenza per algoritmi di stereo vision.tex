@@ -578,20 +578,25 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\end{figure}
 			
 			\noindent Cominciamo dal dire cosa aspettarci dai due confronti descritti prima. Per il primo grafico ci aspettiamo di trovare una curva che resta a zero per una determinata percentuale di confidenze, e che  poi tende a crescere in maniera pressoché lineare per le successive. Per il secondo confronto ci aspetteremo che l'errore di riferimento sia monotono crescente, mentre le misure possono assumere andamenti più casuali, al patto che abbiano errore sempre maggiore di quello di riferimento. Ovviamente la misura migliore sarà quella con la curva il più possibile vicino all'errore di \textit{ground truth}. \newline
-			Passando quindi al confronto, si nota che le diverse metriche si comportano in maniera differente a seconda dell'immagine. Nel complesso però, le due che sembrano avere risultati migliori sono la \textit{MLM} e \textit{PKRN}. Questo è chiaramente visibile nei grafici riportati in figura \ref{fig:risultati}.   
+			Passando quindi al confronto, si nota che le diverse metriche si comportano in maniera differente a seconda dell'immagine. Nel complesso però, le due che sembrano avere risultati migliori sono la \textit{MLM} e \textit{AML}. Questo è chiaramente visibile nei grafici riportati in figura \ref{fig:risultati}.   
 			
 			\begin{figure}[<h>]
 				\centering
 				\subfloat[][\emph{Numero di pixel con errore di disparità maggiore di uno.}]
 				{\includegraphics[width=0.48\textwidth]{./figures/result1.png}} \quad
 				\subfloat[][\emph{Errore di disparità medio.}]
-				{\includegraphics[width=0.48\textwidth]{./figures/result2.png}}
-			
+				{\includegraphics[width=0.48\textwidth]{./figures/result2.png}} \quad
+				\subfloat[][\emph{Numero di pixel con errore di disparità maggiore di uno.}]
+				{\includegraphics[width=0.48\textwidth]{./figures/result4.png}} \quad
+				\subfloat[][\emph{Errore di disparità medio.}]
+				{\includegraphics[width=0.48\textwidth]{./figures/result5.png}}
+							
 				\caption{Grafici dei risultati utilizzando l'immagine \textit{Bowling2} dal dataset \textit{Middlebury}}
 				\label{fig:risultati}
 			\end{figure}	
 			
-			\noindent Questo è il risultato dove differenzia di più tutte le misure; questo vuol dire che in certe immagini le misure si equivalgono molto, mentre in altre sono molto diverse. 
+			\noindent Questo è il risultato dove differenzia di più tutte le misure; questo vuol dire che in certe immagini le misure si equivalgono molto, mentre in altre sono molto diverse. Non succede mai però che \textit{MLM} e \textit{AML} siano nettamente peggiori, succede invece che a volte una delle due sia meglio di un altra e viceversa. Altro caso, è quando i grafici si incrociano, questo vuol dire che per una certa percentuale di confidenze è meglio una, mentre poi è meglio un'altra. Questo succede ad esempio nella figura \ref{fig:risultati2},
+			\newpage
 			
 			\begin{wrapfloat}{figure}{R}{0pt}
 				\includegraphics[width=0.48\textwidth]{./figures/result3.png}
@@ -599,7 +604,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 				\label{fig:risultati2}
 			\end{wrapfloat}
 			
-			\noindent Non succede mai però che \textit{MLM} e \textit{PKRN} siano nettamente peggiori, succede invece che a volte una delle due sia meglio di un altra e viceversa. Altro caso, è quando i grafici si incrociano, questo vuol dire che per una certa percentuale di confidenze è meglio una, mentre poi è meglio un'altra. Questo succede ad esempio nella figura \ref{fig:risultati2}, dove la metrica \textit{NonLinear Margin} è la migliore di tutte per quasi il 40\% dei pixel considerati, venendo poi superata, ancora una volta, da \textit{MLM} e \textit{PKRN}. 
+			\noindent dove la metrica \textit{NonLinear Margin} è la migliore di tutte per quasi il 40\% dei pixel considerati, venendo poi superata, ancora una volta, da \textit{MLM} e \textit{PKRN}. Come previsto, anche la metrica \textit{PKRN} ottiene buoni risultati, superando tutte soprattutto nella prima percentuale di pixel considerati.
 			
 
 			\nullpage
