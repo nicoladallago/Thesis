@@ -15,7 +15,7 @@
 \usepackage{indentfirst}          
 \usepackage{setspace}
 \usepackage{float}
-
+\usepackage{appendix}
 
 
 %%%%%%%%%%%%%%%%%%%%%% fonts & symbols  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -43,7 +43,7 @@
 \definecolor{stringhe}{rgb}{0.63,0.125,0.94}
 \lstloadlanguages{Matlab}
 \lstset{% general command to set parameter(s)
-framexleftmargin=4mm,
+framexleftmargin=0mm,
 frame=single,
 keywordstyle = \color{blue},% blue keywords
 identifierstyle =, % nothing happens
@@ -55,7 +55,7 @@ emphstyle = \color{blue},
 firstnumber = 1, % numero della prima linea
 numbers =left, %  show number_line
 numberstyle = \tiny, % style of number_line
-stepnumber = 5, % one number_line after stepnumber
+stepnumber = 1, % one number_line after stepnumber
 numbersep = 5pt,
 language = {Matlab}, % per riconoscere la sintassi matlab
 extendedchars = true, % per abilitare caratteri particolari
@@ -604,52 +604,78 @@ breakindent = 30pt, % indenta le righe di 30pt
 				\label{fig:risultati2}
 			\end{wrapfloat}
 			
-			\noindent dove la metrica \textit{NonLinear Margin} è la migliore di tutte per quasi il 40\% dei pixel considerati, venendo poi superata, ancora una volta, da \textit{MLM} e \textit{PKRN}. Come previsto, anche la metrica \textit{PKRN} ottiene buoni risultati, superando tutte soprattutto nella prima percentuale di pixel considerati.
+			\noindent dove la metrica \textit{NonLinear Margin} è la migliore di tutte per quasi il 40\% dei pixel considerati, venendo poi superata, ancora una volta, da \textit{MLM} e \textit{PKRN}. Come previsto, anche la metrica \textit{PKRN} ottiene buoni risultati, superando tutte soprattutto nella prima percentuale di pixel considerati. Per quanto riguarda le misure del tipo consistenza fra disparità di destra e sinistra, la migliore delle due sembra essere \textit{LRD}. Come verificato in \cite{mordohai_pami}, questa misura è migliore di \textit{LRC} in praticamente tutte le immagini considerate e per quasi tutte le percentuali di pixel. Entrambe comunque si comportano molto bene anche rispetto le misure descritte nel capitolo \ref{sec:confidenza}; infatti la curva che indica il numero di pixel con errore di disparità maggiore di uno, rimane piatta fino a circa il $50\%$ dei pixel considerati (il \textit{ground truth} arriva al $65\%$) mentre anche nel migliore dei casi, le altre misure non riescono a superare il $30\%$.
 			
-
-			\nullpage
 %%--------------------------- COMBINAZIONE DI MISURE ------------------------------------%%						
 	
 	\chapter{Combinazione di misure}
 	\label{sec:combinazione}
 	\pagestyle{fancy}
 				
-		Per combinazione di misure, si intende il combinarne più insieme al fine di migliorarne i risultati. Considerando le misure di confidenza come probabilità, la cosa più semplice da fare sarebbe quella di dire che, essendo indipendenti, la loro combinazione non è altro che il loro prodotto. In realtà però, non è del tutto corretto definirle indipendenti, in quanto tutte dipendono dalla stessa ‘‘matrice dei costi’’, calcolata con il medesimo algoritmo (in questo caso \textit{SGBM}). 
+		Per combinazione di misure, si intende il combinarne più insieme al fine di migliorarne i risultati. Considerando le misure di confidenza come probabilità, la cosa più semplice da fare sarebbe quella di dire che, essendo indipendenti, la loro combinazione non è altro che il loro prodotto. In realtà però, non è del tutto corretto definirle indipendenti, in quanto tutte dipendono dalla stessa ‘‘matrice dei costi’’, calcolata con il medesimo algoritmo (in questo caso \textit{SGM}). In questa tesi però non ne terremo conto, calcolando la combinazione di misure solo come semplice moltiplicazione di alcune di esse. Come combinazione sono state usate:
 		
+		\begin{itemize}
+			\item combinazione di \textit{AML} e \textit{MLM} $C_{comb1}=C_{AML}\cdot C_{MLM}$;
+			
+			\item combinazione delle tre migliori $C_{comb2}=C_{AML}\cdot C_{MLM}\cdot C_{PKRN}$;
+			
+			\item combinazione fra \textit{NLM} e \textit{MLM}, infatti la metrica \textit{NLM} è risultata competitiva in certi dataset per circa il primo $40\%$ dei pixel, per poi essere superata da \textit{MLM} $C_{comb3}=C_{NLM}\cdot C_{MLM}$. 
+			\label{item:combinazioni}		
+		\end{itemize}
+		
+		\noindent Ovviamente prima di moltiplicarle, bisogna verificare che la loro distribuzione sia compresa tra zero e uno.
+		
+		
+		\section{Risultati}
+		\label{sec:risultatiCombinazioni}
+
+			\begin{SCfigure}[\sidecaptionrelwidth][h!]
+				\centering
+				\includegraphics[width=0.48\textwidth]{./figures/result6.png}
+				\caption{Dettaglio dell'errore medio per la combinazione di diverse misure, in questo caso la migliore resta comunque \textit{AML}, per poi essere raggiunta dalla sua combinazione con \textit{MLM}.}
+				\label{fig:combinazioni}
+			\end{SCfigure} 
+
+		
+			La migliore combinazione risulta essere la prima, poi la seconda e infine la terza. La prima combinazione riesce sempre ad essere migliore di \textit{MLM}, mentre solo a volte migliore di \textit{AML}. La seconda migliora, e non di poco, la metrica \textit{PKRN}, mentre la terza è peggiore delle singole misure per i primi $50 \%$ di pixel, ma in quelli successivi risulta vincente. Nel complesso quindi, questo genere di combinazioni, può riuscire a migliorare i risultati di qualcosa, ma un uso sbagliato può riuscire a peggiorarli di molto. \newline
+			Per riuscire a migliore questi risultati, si potrebbe pensare a combinazioni più complicate
 	
-	
-	
+
 %%---------------------------- APPENDICI ----------------------------------------%%	
 	\nullpage	
 	\appendix 
 	\addcontentsline{toc}{chapter}{Appendici}
+	\renewcommand\chaptername{Appendice}
 	
 	\chapter{Codice MATLAB utilizzato}
 	\label{sec:codice}
 	
-		In questa appendice viene riportato solo il codice \textit{MATLAB} che calcola le mappe di disparità con le varie tecniche descritte nel paragrafo \ref{sec:confidenza}; si riporta inoltre il codice utilizzato per analizzare i risultati ottenuti.
+		In questa appendice viene riportato solo il codice \textit{MATLAB} che calcola le mappe di confidenza con le varie tecniche descritte nel paragrafo \ref{sec:confidenza} e nel paragrafo \ref{sec:combinazione}; si riporta inoltre il codice utilizzato per analizzare i risultati ottenuti.
 	
-		\section{computeConfidence.m}
+		\section{compute\_confidence.m}
 		\label{sec:computeConfidence}
 		
-			Questo script computa la mappa di disparità per \textit{MSM}, \textit{CUR}, \textit{LC}, \textit{PKRN}, \textit{NLM} e \textit{MLM}.
+			Questo script computa la mappa di disparità per \textit{CUR}, \textit{LC}, \textit{PKRN}, \textit{MMN}, \textit{NLM}, \textit{MLM}, \textit{AML} e \textit{WMNN}. Calcola inoltre la combinazione delle confidenze.
 	
-			\lstinputlisting[basicstyle=\scriptsize]{./code/computeConfidence.m}
+			\lstinputlisting[basicstyle=\scriptsize]{./code/compute_confidence.m}
 		
-		\newpage
-		\section{leftRightConsistency.m}
-		\label{sec:leftRightConsistency}
-			\lstinputlisting[basicstyle=\scriptsize]{./code/leftRightConsistency.m}	
+		\section{left\_right\_confidence.m}
+		\label{sec:leftright}
+			\lstinputlisting[basicstyle=\scriptsize]{./code/left_right_confidence.m}
+		
+		\section{result.m}
+		\label{sec:result}
+			\lstinputlisting[basicstyle=\scriptsize]{./code/result.m}	
 			
-		\newpage
-		\section{funcSADL2R.m}
-		\label{sec:funcSADL2R}
-			\lstinputlisting[basicstyle=\scriptsize]{./code/funcSADL2R.m}
+		%\newpage
+		%\section{funcSADL2R.m}
+		%\label{sec:funcSADL2R}
+		%	\lstinputlisting[basicstyle=\scriptsize]{./code/funcSADL2R.m}
 			
-		\newpage
-		\section{funcSADR2L.m}
-		\label{sec:funcSADR2L}
-			\lstinputlisting[basicstyle=\scriptsize]{./code/funcSADR2L.m}		
+		%\newpage
+		%\section{funcSADR2L.m}
+		%\label{sec:funcSADR2L}
+		%	\lstinputlisting[basicstyle=\scriptsize]{./code/funcSADR2L.m}		
 
 
 
