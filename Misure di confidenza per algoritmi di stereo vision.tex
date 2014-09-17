@@ -175,7 +175,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 	\addcontentsline{toc}{chapter}{Abstract}
 	\pagestyle{fancy}
 	
-	Scopo di questa tesi è il confronto di varie tecniche di stima della confidenza a partire dai dati acquisiti da una coppia di fotocamere stereo. Vengono quindi utilizzate più metriche fisse, con parametri variabili e combinazioni di esse. Si confrontano poi i risultati con la mappa di disparità \textit{ground truth} disponibile nei dataset citati. Per il calcolo delle disparità viene usato un algoritmo di semi \textit{Semi-global block matching (SGBM)} , opportunamente modificato, presente nelle librerie \textit{OpenCV}. Le misure di confidenza e i risultati sono invece scritti con il linguaggio di programmazione \textit{MATLAB}, il cui codice viene riportato nelle appendici.
+	Scopo di questa tesi è il confronto di varie tecniche di stima della confidenza a partire dai dati acquisiti da una coppia di fotocamere stereo. Vengono quindi utilizzate più metriche fisse, con parametri variabili e combinazioni di esse. Si confrontano poi i risultati con la mappa di disparità \textit{ground truth} disponibile nei dataset citati. Per il calcolo delle disparità viene usato un algoritmo di semi \textit{Semi-global matching (SGM)}, opportunamente modificato, presente nelle librerie \textit{OpenCV}. Le misure di confidenza e i risultati sono invece scritti con il linguaggio di programmazione \textit{MATLAB}, il cui codice viene riportato nelle appendici.
 	
 
 %%------------------------------ INDICE -------------------------------------------%%
@@ -292,13 +292,13 @@ breakindent = 30pt, % indenta le righe di 30pt
 				\label{item:definizioni}
 			\end{itemize}
 			
-			Seguono quindi tutte le varie tecniche utilizzate, raggruppate secondo l'aspetto del costo che considerano \cite{indoors_outdoors}.
+			\noindent Seguono quindi tutte le varie tecniche utilizzate, raggruppate secondo l'aspetto del costo che considerano \cite{indoors_outdoors}.
 		
 		
 		
 		\section{Proprietà locali della curva}
 		\label{sec:localProperties}	
-			In questo genere di metriche, si sfrutta il fatto che la forma della curva di costo intorno al minimo (la nitidezza o la planarità) è indice di certezza nella partita.
+			In questo genere di metriche, si sfrutta il fatto che la forma della curva di costo intorno al minimo (la nitidezza o la planarità) è indice di certezza nel confronto.
 			
 			\paragraph{Curvature (CUR)}
 			\label{par:curvature}
@@ -496,7 +496,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 		\section{Variazione parametri}
 		\label{sec:parametri}
 		
-			In questa sezione, prima di confrontare le misure, verificheremo quali parametri sono più adatti per quelle che dipendono da tali. Consideriamo quindi la \textit{Local Curve}, \textit{Peak Ratio Naive}, \textit{Nonlinear Margin}  e \textit{Maximum Likelihood metric}.
+			In questa sezione, prima di confrontare le misure, verificheremo quali parametri sono più adatti per quelle che dipendono da tali. Consideriamo quindi la \textit{Local Curve}, \textit{Peak Ratio Naive}, \textit{Nonlinear Margin}, \textit{Maximum Likelihood metric} e \textit{Attainable Maximun Likelihood}.
 		
 			\paragraph{Variazione parametro $\bm{\gamma}$ per \textit{LC}}
 			\label{par:gamma}
@@ -524,7 +524,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 				\end{wrapfloat} 
 			
 			
-				\noindent lo si supera. Per quanto riguardagli errori rispetto la \textit{ground truth}, si notano dei lievi miglioramenti per valori di $\epsilon$ molto piccoli, intorno a un decimo; lo si può notare in figura \ref{fig:epsilonPKRN}. Si è notato inoltre che dopo il valore di $0,128$ non si hanno cambiamenti. Si sceglie quindi $\epsilon=0.128$. Notare che in questo modo è necessario riscalare il valore della metrica, in quanto il suo massimo è abbondantemente sopra l'uno; per farlo è sufficiente dividere ogni singolo costo per il costo massimo. \newline \newline \newline
+				\noindent lo si supera. Per quanto riguarda gli errori rispetto la \textit{ground truth}, si notano dei lievi miglioramenti per valori di $\epsilon$ molto piccoli, intorno a un decimo; lo si può notare in figura \ref{fig:epsilonPKRN}. Si è notato inoltre che dopo il valore di $0,128$ non si hanno cambiamenti. Si sceglie quindi $\epsilon=0.128$. Notare che in questo modo è necessario riscalare il valore della metrica, in quanto il suo massimo è abbondantemente sopra l'uno; per farlo è sufficiente dividere ogni singolo costo per il costo massimo. \newline \newline \newline
 	
 			\paragraph{Variazione parametro $\bm{\sigma}$ per \textit{NLM}}
 			\label{par:sigmaNLM}
@@ -638,11 +638,10 @@ breakindent = 30pt, % indenta le righe di 30pt
 
 		
 			La migliore combinazione risulta essere la prima, poi la seconda e infine la terza. La prima combinazione riesce sempre ad essere migliore di \textit{MLM}, mentre solo a volte migliore di \textit{AML}. La seconda migliora, e non di poco, la metrica \textit{PKRN}, mentre la terza è peggiore delle singole misure per i primi $50 \%$ di pixel, ma in quelli successivi risulta vincente. Nel complesso quindi, questo genere di combinazioni, può riuscire a migliorare i risultati di qualcosa, ma un uso sbagliato può riuscire a peggiorarli di molto. \newline
-			Per riuscire a migliore questi risultati, si potrebbe pensare a combinazioni più complicate
+			Per riuscire a migliore questi risultati, si potrebbe pensare a combinazioni più complicate, come utilizzare un approccio di tipo \textit{machine learning}, utilizzando \textit{random tree ensembles} descritto in \cite{combinazioni_complicate}.
 	
 
-%%---------------------------- APPENDICI ----------------------------------------%%	
-	\nullpage	
+%%---------------------------- APPENDICI ----------------------------------------%%		
 	\appendix 
 	\addcontentsline{toc}{chapter}{Appendici}
 	\renewcommand\chaptername{Appendice}
@@ -731,13 +730,19 @@ breakindent = 30pt, % indenta le righe di 30pt
 		IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR 2007), Minneapolis, MN, June 2007.
 		
 		\bibitem{opencv}
-		\emph{OpenCV library 2.4.9},
-		\url{http://opencv.org/}.
+		G. Bradski,
+		\emph{The OpenCV Library},
+		\url{http://opencv.org/},
+		Dr. Dobb's Journal of Software Tools,  2000.
 		
 		\bibitem{ground_truth}
 		D. Scharstein, R. Szeliski,
 		\emph{High-Accuracy Stereo Depth Maps Using Structured Light},
 		Proc. CVPR, volume I, pages 195–202, 2003.
+		
+		\bibitem{combinazioni_complicate}
+		R. Haeusler, R. Nair, D. Kondermann,
+		\emph{Ensemble Learning for Confidence Measures in Stereo Vision}.
 		
 		
 
