@@ -28,17 +28,13 @@ elseif(strcmp(dataset, 'Flowerpots'))
     cols = 656;
 end
 
-number_of_costs = 6;
-cost_functions = {'comb1' 'comb2' 'comb3' 'PKRN' 'MLM' 'AML'};
+number_of_costs = 4;
+cost_functions = {'NLM' 'MLM' 'AML' 'WMNN'};
 
 % load confidence
 cost = zeros(rows, cols, number_of_costs);
-for i = 1 : 1 : number_of_costs - 3
-   cost(:, :, i) = cell2mat(struct2cell(load(path_confidence_combination, ['C_' cell2mat(cost_functions(i))])));  
-end
-
-for i = number_of_costs - 2 : 1 : number_of_costs
-    cost(:, :, i) = cell2mat(struct2cell(load(path_confidence, ['C_' cell2mat(cost_functions(i))])));
+for i = 1 : 1 : number_of_costs
+   cost(:, :, i) = cell2mat(struct2cell(load(path_confidence, ['C_' cell2mat(cost_functions(i))])));  
 end
 
 % load ground truth disparity and SGM disparity
@@ -216,7 +212,7 @@ h_legend = legend(legend_string{:});
 set(h_legend, 'FontSize', font_size);
 xlim([5 100])
 
-figure('units','normalized','outerposition',[1/3 0 2/3 1])
+figure('units','normalized','outerposition',[0 0 2/3 1])
 plot(linspace(number_of_costs, 100, step), average_error_curves, '-x')
 h_title = title('average disparity error (|d - d_{gt}|) vs number of considered pixels');
 set(h_title, 'FontSize', font_size);

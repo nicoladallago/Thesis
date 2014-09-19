@@ -2,7 +2,7 @@
 
 % @author: Giulio Marin (giulio.marin@me.com), Nicola Dal Lago
 % @date: 25/08/2014
-% @version: 1.0
+% version: 1.0
 
 
 %% clear workspace
@@ -128,11 +128,11 @@ save(['./save_confidence/' dataset '/confidences.mat'], 'C_CUR', 'C_LC', 'C_PKRN
 imwrite(C_CUR, ['./save_confidence/' dataset '/CUR.png'] ,'png');
 imwrite(C_LC, ['./save_confidence/' dataset '/LC.png'] ,'png');
 imwrite(C_PKRN, ['./save_confidence/' dataset '/PKRN.png'] ,'png');
-imwrite(C_NLM, ['./save_confidence/' dataset '/MMN.png'] ,'png');
+imwrite(C_MMN, ['./save_confidence/' dataset '/MMN.png'] ,'png');
 imwrite(C_NLM, ['./save_confidence/' dataset '/NLM.png'] ,'png');
 imwrite(C_MLM, ['./save_confidence/' dataset '/MLM.png'] ,'png');
-imwrite(C_NLM, ['./save_confidence/' dataset '/AML.png'] ,'png');
-imwrite(C_NLM, ['./save_confidence/' dataset '/wmnn.png'] ,'png');
+imwrite(C_AML, ['./save_confidence/' dataset '/AML.png'] ,'png');
+imwrite(C_WMNN, ['./save_confidence/' dataset '/WMNN.png'] ,'png');
 
 
 %% Combination one
