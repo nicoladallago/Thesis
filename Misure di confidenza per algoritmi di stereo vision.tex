@@ -532,7 +532,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 			\paragraph{Variazione parametro $\bm{\sigma}$ per \textit{MLM}}	 	 	
 			\label{par:sigmaMLM}
 		 	 
-		 	 	A differenze delle altre misure, per essere utilizzata al meglio la si deve per forza riscalare. Infatti i valori che permetterebbero un costo compreso tra zero e uno, sarebbero completamente sballati per quanto riguarda gli errori. Per garantire quinti una certa uniformità e un errore non esagerato, si è quindi scelto un valore di $\sigma$ pari a $0,3$. 
+		 	 	A differenze delle altre misure, per essere utilizzata al meglio la si deve per forza riscalare. Infatti i valori che permetterebbero un costo compreso tra zero e uno, creerebbero grandi errori nelle curve. Si sceglie quindi un valore di $\sigma$ pari a $0,3$ per garantire una migliore distribuzione e il minor errore possibile. 
 		 	 	
 		 	 	\begin{figure}[H]
 			 	 	\centering
@@ -574,7 +574,7 @@ breakindent = 30pt, % indenta le righe di 30pt
 				\label{fig:disparità&costi}
 			\end{figure}
 			
-			Cominciamo dal dire cosa aspettarci dai due confronti descritti prima. Per il primo grafico ci aspettiamo di trovare una curva che resta a zero per una determinata percentuale di confidenze, e che  poi tende a crescere in maniera pressoché lineare per le successive. 
+			Cominciamo dal dire cosa aspettarci dai due confronti descritti prima. Per il primo grafico ci aspettiamo di trovare una curva che resta a zero per una determinata percentuale di confidenze, e che  poi tende a crescere per le successive. Non è possibile dire a priori l'andamento della curva, si può solo dire che tenderà a crescere. 
 			
 			\begin{wrapfloat}{figure}{I}{0pt}
 				\includegraphics[width=0.48\textwidth]{./figures/result3.png}
