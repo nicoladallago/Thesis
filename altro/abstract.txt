@@ -1,0 +1,9 @@
+visione stereo
+
+
+Lo scopo di questa tesi è il confronto di varie tecniche di stima della confidenza
+a partire dai dati acquisiti da una coppia di videocamere. Vengono quindi utilizzate
+diverse metriche, valutate sia singolarmente che combinate opportunamente. Si confrontano
+poi i risultati con le mappe di disparità (ground truth) disponibili nei dataset
+di riferimento. Per il calcolo delle disparità è stato usato l’algoritmo Semi-global
+matching (SGM) opportunamente modificato.
